@@ -13,7 +13,7 @@ AES/ECB/PKCS5Padding  same as aes in java default.
 """
 
 setup(
-    name='aes-sha11prng',
+    name='aes-sha1prng',
     version=__version__,
     description='AES/ECB/PKCS5Padding Python library',
     long_description=DESCRIPTION,
