@@ -5,7 +5,7 @@ from Crypto.Cipher import AES as _AES
 
 class AES:
 
-    def __init__(self, key):
+    def __init__(self, key: str):
         """Init aes object used by encrypt or decrypt.
         AES/ECB/PKCS5Padding  same as aes in java default.
         """
@@ -14,7 +14,7 @@ class AES:
 
 
     @staticmethod
-    def get_sha1prng_key(key):
+    def get_sha1prng_key(key: str) -> bytes:
         """encrypt key with SHA1PRNG.
         same as java AES crypto key generator SHA1PRNG.
         SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG" );
@@ -24,16 +24,16 @@ class AES:
         :return bytes: encrypt key with SHA1PRNG, 128 bits or 16 long bytes.
         """
 
-        signature = hashlib.sha1(key.encode()).digest()
-        signature = hashlib.sha1(signature).digest()
+        signature: bytes = hashlib.sha1(key.encode()).digest()
+        signature: bytes = hashlib.sha1(signature).digest()
         return signature[:16]
     
 
     @staticmethod
-    def padding(s):
+    def padding(s: str) -> str:
         """Padding PKCS5"""
 
-        pad_num = 16 - len(s) % 16
+        pad_num: int = 16 - len(s) % 16
         return s + pad_num * chr(pad_num)
 
 
@@ -41,7 +41,7 @@ class AES:
     def unpadding(s):
         """Unpadding PKCS5"""
         
-        padding_num = ord(s[-1])
+        padding_num: int = ord(s[-1])
         return s[: -padding_num]
 
     
@@ -55,7 +55,7 @@ class AES:
     
 
     def encrypt_to_base64(self, content_str):
-        """From string encrypt to bytes ciphertext.
+        """From string encrypt to base64 ciphertext.
         """
 
         ciphertext_bytes = self.encrypt_to_bytes(content_str)
@@ -81,37 +81,37 @@ class AES:
         return content_str
 
 
-def encrypt_to_bytes(content_str, encrypt_key):
+def encrypt_to_bytes(content_str, encrypt_key: str):
     """From string encrypt to bytes ciphertext.
     """
 
-    aes = AES(encrypt_key)
+    aes: AES = AES(encrypt_key)
     ciphertext_bytes = aes.encrypt_to_bytes(content_str)
     return ciphertext_bytes
 
 
-def encrypt_to_base64(content_str, encrypt_key):
-    """From string encrypt to bytes ciphertext.
+def encrypt_to_base64(content_str, encrypt_key: str) -> str:
+    """From string encrypt to base64 ciphertext.
     """
 
-    aes = AES(encrypt_key)
+    aes: AES = AES(encrypt_key)
     ciphertext_bs64 = aes.encrypt_to_base64(content_str)
     return ciphertext_bs64
 
 
-def decrypt_from_bytes(ciphertext_bytes, decrypt_key):
+def decrypt_from_bytes(ciphertext_bytes, decrypt_key: str) -> str:
     """From bytes ciphertext decrypt to string.
     """
     
-    aes = AES(decrypt_key)
+    aes: AES = AES(decrypt_key)
     content_str = aes.decrypt_from_bytes(ciphertext_bytes)
     return content_str
 
 
-def decrypt_from_base64(ciphertext_bs64, decrypt_key):
+def decrypt_from_base64(ciphertext_bs64, decrypt_key: str) -> str:
     """From base64 ciphertext decrypt to string.
     """
 
-    aes = AES(decrypt_key)
+    aes: AES = AES(decrypt_key)
     content_str = aes.decrypt_from_base64(ciphertext_bs64)
     return content_str
